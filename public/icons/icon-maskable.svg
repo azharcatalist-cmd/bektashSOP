@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Bektash Ops">
+  <rect width="512" height="512" fill="#0B0B0C"/>
+  <text x="256" y="330" font-family="'Baloo 2', 'Arial Rounded MT Bold', system-ui, sans-serif"
+        font-size="220" font-weight="700" fill="#FFC60B" text-anchor="middle">b</text>
+  <circle cx="336" cy="350" r="13" fill="#FFC60B"/>
+  <circle cx="296" cy="366" r="10" fill="#FFC60B"/>
+  <circle cx="372" cy="366" r="10" fill="#FFC60B"/>
+</svg>
