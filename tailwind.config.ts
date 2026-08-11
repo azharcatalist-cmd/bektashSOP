@@ -17,6 +17,9 @@ const config: Config = {
       borderRadius: {
         xl2: "1.25rem",
       },
+      fontFamily: {
+        display: ["Anton", "Arial Narrow", "Impact", "sans-serif"],
+      },
     },
   },
   plugins: [],

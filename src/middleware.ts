@@ -10,9 +10,9 @@ export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // Not configured yet -> send everything to the setup guide
+  // Not configured yet -> send everything (except the public site) to the setup guide
   if (!url || !key) {
-    if (pathname !== "/setup") {
+    if (pathname !== "/setup" && pathname !== "/") {
       return NextResponse.redirect(new URL("/setup", request.url));
     }
     return NextResponse.next();
@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
+  const isPublic = pathname === "/" || PUBLIC_PATHS.some((p) => pathname.startsWith(p));
 
   if (!user && !isPublic) {
     return NextResponse.redirect(new URL("/login", request.url));

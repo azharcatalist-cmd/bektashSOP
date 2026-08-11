@@ -76,6 +76,7 @@ supabase/schema.sql        database schema + security policies (also applied as 
 supabase/seed.sql          Bektash content: outlets, checklists, SOPs, training, onboarding
 src/middleware.ts          session refresh + auth redirects
 src/lib/                   supabase clients, auth helper, role definitions, formatting
+src/app/page.tsx           public brand website at / (bektash.in) — no login required
 src/app/login              sign in / staff sign up
 src/app/(app)/             the app itself (requires login):
   dashboard/               role-aware home

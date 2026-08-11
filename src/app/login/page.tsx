@@ -123,6 +123,12 @@ export default function LoginPage() {
             </p>
           )}
         </div>
+
+        <p className="mt-6 text-center text-sm">
+          <a href="/" className="text-zinc-500 transition-colors hover:text-brand-yellow">
+            ← Back to bektash.in
+          </a>
+        </p>
       </div>
     </main>
   );
