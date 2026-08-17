@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { requireProfile } from "@/lib/auth";
 import { PageHeader, Chip } from "@/components/ui";
 import { markModuleComplete } from "../actions";
+import QuizForm, { type QuizQuestion } from "./quiz-form";
 
 export default async function TrainingModulePage({
   params,
@@ -14,7 +15,7 @@ export default async function TrainingModulePage({
   const { data: module } = await supabase.from("training_modules").select("*").eq("id", id).single();
   if (!module) notFound();
 
-  const [{ data: lessons }, { data: progress }] = await Promise.all([
+  const [{ data: lessons }, { data: progress }, { data: quizQuestions }] = await Promise.all([
     supabase.from("training_lessons").select("*").eq("module_id", id).order("position"),
     supabase
       .from("training_progress")
@@ -22,9 +23,15 @@ export default async function TrainingModulePage({
       .eq("user_id", profile.id)
       .eq("module_id", id)
       .maybeSingle(),
+    supabase
+      .from("quiz_questions")
+      .select("id, position, question, options")
+      .eq("module_id", id)
+      .order("position"),
   ]);
 
   const completeAction = markModuleComplete.bind(null, id);
+  const quiz = (quizQuestions ?? []) as QuizQuestion[];
 
   return (
     <>
@@ -66,13 +73,16 @@ export default async function TrainingModulePage({
         ))}
       </ol>
 
-      {!progress && (
-        <form action={completeAction} className="mt-6">
-          <button className="btn-primary w-full md:w-auto">
-            I have read and understood this module — mark complete
-          </button>
-        </form>
-      )}
+      {!progress &&
+        (quiz.length > 0 ? (
+          <QuizForm moduleId={id} questions={quiz} />
+        ) : (
+          <form action={completeAction} className="mt-6">
+            <button className="btn-primary w-full md:w-auto">
+              I have read and understood this module — mark complete
+            </button>
+          </form>
+        ))}
     </>
   );
 }

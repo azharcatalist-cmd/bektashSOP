@@ -106,19 +106,26 @@ export default async function ReportsPage() {
 
       <section className="mt-8">
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-zinc-400">
-          Checklist compliance score by outlet
+          Outlet leaderboard — compliance score
         </h2>
         <div className="card space-y-4">
-          {perOutlet.map(({ outlet, score }) => (
-            <div key={outlet.id}>
-              <p className="mb-1 text-sm font-semibold text-zinc-200">{outlet.name}</p>
-              {score == null ? (
-                <p className="text-xs text-zinc-500">No submissions in the last 30 days</p>
-              ) : (
-                <Bar pct={score} />
-              )}
-            </div>
-          ))}
+          {[...perOutlet]
+            .sort((a, b) => (b.score ?? -1) - (a.score ?? -1))
+            .map(({ outlet, score }, rank) => (
+              <div key={outlet.id}>
+                <p className="mb-1 text-sm font-semibold text-zinc-200">
+                  <span className="mr-1.5">
+                    {score == null ? "▫️" : ["🥇", "🥈", "🥉"][rank] ?? `${rank + 1}.`}
+                  </span>
+                  {outlet.name}
+                </p>
+                {score == null ? (
+                  <p className="text-xs text-zinc-500">No submissions in the last 30 days</p>
+                ) : (
+                  <Bar pct={score} />
+                )}
+              </div>
+            ))}
           {perOutlet.length === 0 && <EmptyState title="No outlets configured" />}
         </div>
       </section>

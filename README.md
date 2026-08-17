@@ -126,14 +126,17 @@ public-by-design key; all real security is in Row Level Security policies).
 
 ## Roadmap
 
-- [ ] Missed-checklist auto-alerts (scheduled job: "outlet X didn't submit opening by 11:00")
+- [x] Missed-checklist auto-alerts — pg_cron jobs raise a critical alert when an outlet
+      hasn't submitted opening (by 11:30 IST) or closing (by 01:00 IST) checklists
+- [x] Time-stamped photo evidence — every photo is compressed and stamped with
+      "BEKTASH OPS · date · time" burnt into the image (anti-reuse)
+- [x] Pass/fail quizzes on training modules — 80% pass mark, unlimited retries; modules
+      with a quiz can no longer be self-marked complete
+- [x] Outlet compliance leaderboard in Reports
 - [ ] WhatsApp notifications for fines, alerts and appeal decisions
-- [ ] Live-camera-only photo capture with time/outlet stamp (anti-cheat)
-- [ ] Pass/fail quizzes on training modules
 - [ ] Temperature log module with trend charts
 - [ ] Monthly fines export for payroll
 - [ ] Malayalam language toggle for staff screens
-- [ ] Outlet compliance leaderboard
 
 ## Notes
 
