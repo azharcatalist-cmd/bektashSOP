@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth";
 import { isAdminLevel } from "@/lib/types";
 
@@ -10,6 +11,24 @@ async function requireAdmin() {
     throw new Error("Admin access required");
   }
   return ctx;
+}
+
+export async function createUser(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const email = String(formData.get("email") || "").trim();
+  const { error } = await supabase.rpc("admin_create_user", {
+    p_email: email,
+    p_password: String(formData.get("password") || ""),
+    p_full_name: String(formData.get("full_name") || "").trim(),
+    p_role: String(formData.get("role") || "staff"),
+    p_department: String(formData.get("department") || "") || null,
+    p_outlet_id: String(formData.get("outlet_id") || "") || null,
+  });
+  if (error) {
+    redirect(`/admin/users?error=${encodeURIComponent(error.message)}`);
+  }
+  revalidatePath("/admin/users");
+  redirect(`/admin/users?created=${encodeURIComponent(email)}`);
 }
 
 export async function updateUser(formData: FormData) {
